@@ -9,6 +9,6 @@ import Foundation
 
 extension String {
     static func localized(_ key: String) -> String {
-        return String(key)
+        return String(localized: LocalizationValue(key))
     }
 }
