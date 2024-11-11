@@ -10,6 +10,7 @@ import SwiftUI
 struct FilledLimitBar: View {
     var filledPercentage = 0.0
     var filledColor: Color = .prime
+    var showBorder: Bool = false
     
     var body: some View {
         GeometryReader { geometry in
@@ -20,6 +21,7 @@ struct FilledLimitBar: View {
                     .frame(width: geometry.size.width * filledPercentage)
             }
             .frame(width: geometry.size.width, height: geometry.size.height)
+            .border(filledColor, width: showBorder ? geometry.size.height / 4 : 0)
         }
 
     }

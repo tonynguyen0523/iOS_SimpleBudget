@@ -15,6 +15,7 @@ struct Category: Identifiable {
     var transactions: [Transaction]?
     
     var totalSpent: Double { getTotalSpent() }
+    var leftOver: Double { limit - totalSpent }
     var percentageSpent: Double {
         return totalSpent / limit
     }

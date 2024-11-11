@@ -19,6 +19,10 @@ public struct FontModifier: ViewModifier {
 }
 
 extension CGFloat {
+    static var largeHeaderFont: CGFloat {
+        return 36.0
+    }
+    
     static var xxxLargeFont: CGFloat {
         return 24.0
     }

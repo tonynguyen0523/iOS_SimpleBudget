@@ -1,6 +1,12 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
+    "Limit: %lls" : {
+      "extractionState" : "manual"
+    },
+    "Spent: %lls" : {
+      "extractionState" : "manual"
+    },
     "Subcategories" : {
       "extractionState" : "manual",
       "localizations" : {

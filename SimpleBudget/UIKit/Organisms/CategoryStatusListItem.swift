@@ -9,7 +9,9 @@ import SwiftUI
 
 struct CategoryStatusListItem: View {
     let category: Category
+    let onSwipe: (Category) -> Void
     @State var expanded: Bool = false
+    @State private var horizontalOffset = CGFloat.zero
     
     var body: some View {
         ZStack {
@@ -18,13 +20,13 @@ struct CategoryStatusListItem: View {
                 CategoryStatus(
                     model: CategoryStatusModel(
                         topLeadingText: category.title,
-                        topTrailingText: category.limit.currency,
-                        bottomLeadingText: "Spent: \(category.totalSpent.currency)",
-                        bottomTrailingText: "Limit: \(category.limit.currency)",
+                        topTrailingText: category.leftOver.currency,
+                        bottomLeadingText: category.totalSpent.currency,
+                        bottomTrailingText: category.limit.currency,
                         filledPercentage: category.percentageSpent
                     ),
                     topHeaderFontSize: .largeFont,
-                    bottomHeaderFontSize: .mediumFont
+                    bottomHeaderFontSize: .smallFont
                 )
                 
                 if let sc = category.subcategories {
@@ -38,7 +40,7 @@ struct CategoryStatusListItem: View {
                     
                     SplitHeaderIcon(
                         title: .localized("Subcategories"),
-                        fontSize: .largeFont,
+                        fontSize: .mediumFont,
                         icon: UIImage(systemName: expanded ? "chevron.down.square" : "chevron.right.square")
                     )
                     .onTapGesture {
@@ -53,9 +55,9 @@ struct CategoryStatusListItem: View {
                                 CategoryStatus(
                                     model: CategoryStatusModel(
                                         topLeadingText: subcategory.title,
-                                        topTrailingText: subcategory.limit.currency,
-                                        bottomLeadingText: "Spent: \(subcategory.totalSpent.currency)",
-                                        bottomTrailingText: "Limit: \(subcategory.limit.currency)",
+                                        topTrailingText: subcategory.leftOver.currency,
+                                        bottomLeadingText: subcategory.totalSpent.currency,
+                                        bottomTrailingText: subcategory.limit.currency,
                                         filledPercentage: subcategory.percentageSpent
                                     ),
                                     topHeaderFontSize: .mediumFont,
@@ -64,6 +66,12 @@ struct CategoryStatusListItem: View {
                                 )
                             }
                         }
+                    }
+                } else {
+                    HStack {
+                        Spacer()
+                        
+                        HeaderText(text: "<<< \(String.localized("SwipeToAdd"))", fontSize: .xSmallFont)
                     }
                 }
             }
@@ -74,9 +82,29 @@ struct CategoryStatusListItem: View {
                 .fill(Color.white)
                 .border(.prime, width: 2)
         )
+        .offset(x: horizontalOffset)
+        .simultaneousGesture(DragGesture()
+            .onChanged { value in
+                if abs(value.translation.width) > abs(value.translation.height) {
+                    if value.translation.width < 0 {
+                        horizontalOffset = value.translation.width
+                        
+                        if horizontalOffset < -100 {
+                            onSwipe(category)
+                            horizontalOffset = .zero
+                        }
+                    }
+                }
+    
+            }
+            .onEnded { _ in
+                horizontalOffset = .zero
+            }
+        )
+        .animation(.spring, value: horizontalOffset)
     }
 }
 
 #Preview {
-    CategoryStatusListItem(category: dummyCategory)
+    CategoryStatusListItem(category: dummyCategory, onSwipe: { _ in })
 }

@@ -24,6 +24,8 @@ struct HorizontalTextSelections: View {
                         .foregroundStyle(.unselected)
                 }
             }
+            
+            Spacer()
         }
     }
 }

@@ -29,13 +29,12 @@ struct CategoryStatus: View {
                 fontSize: topHeaderFontSize
             )
             
-            FilledLimitBar(filledPercentage: model.filledPercentage)
-                .frame(height: limitBarHeight)
-            
-            SplitHeaderTexts(
-                leadingText: model.bottomLeadingText,
-                trailingText: model.bottomTrailingText,
-                fontSize: bottomHeaderFontSize
+            StatusBar(
+                filledPercentage: model.filledPercentage,
+                bottomLeadingText: "Spent: \(model.bottomLeadingText)",
+                bottomTrailingText: "Limit: \(model.bottomTrailingText)",
+                bottomHeaderFontSize: bottomHeaderFontSize,
+                limitBarHeight: limitBarHeight
             )
         }
     }
@@ -53,8 +52,8 @@ struct CategoryStatus: View {
         model: CategoryStatusModel(
             topLeadingText: category.title,
             topTrailingText: category.limit.currency,
-            bottomLeadingText: "Spent: \(category.totalSpent.currency)",
-            bottomTrailingText: "Limit: \(category.limit.currency)",
+            bottomLeadingText: category.totalSpent.currency,
+            bottomTrailingText: category.limit.currency,
             filledPercentage: category.percentageSpent
         ),
         topHeaderFontSize: .largeFont,
