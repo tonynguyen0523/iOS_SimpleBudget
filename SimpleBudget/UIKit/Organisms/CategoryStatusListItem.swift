@@ -16,7 +16,6 @@ struct CategoryStatusListItem: View {
     var body: some View {
         ZStack {
             VStack(spacing: Dimens.defaultPadding) {
-                
                 CategoryStatus(
                     model: CategoryStatusModel(
                         topLeadingText: category.title,
@@ -78,9 +77,7 @@ struct CategoryStatusListItem: View {
             .padding(Dimens.defaultPadding)
         }
         .background(
-            Rectangle()
-                .fill(Color.white)
-                .border(.prime, width: 2)
+            BorderedRectangle()
         )
         .offset(x: horizontalOffset)
         .simultaneousGesture(DragGesture()

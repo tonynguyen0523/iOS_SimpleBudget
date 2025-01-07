@@ -9,27 +9,39 @@ import SwiftUI
 
 struct HorizontalTextSelections: View {
     var options: [String]
+    var selectedFontSize: CGFloat = .xxxLargeFont
+    var unselectedFontSize: CGFloat = .xLargeFont
+    var onSelect: ((Int) -> Void)?
     @State var selectedIndex: Int = 0
     
     var body: some View {
-        HStack {
-            ForEach(0 ..< options.count, id: \.self) { index in
-                let option = options[index]
-                
-                if index == selectedIndex {
-                    HeaderText(text: option, fontSize: .xxxLargeFont)
-                } else {
-                    Text(option)
-                        .modifier(FontModifier(fontSize: .xLargeFont))
-                        .foregroundStyle(.unselected)
+        ScrollView(.horizontal, showsIndicators: false) {
+            HStack {
+                ForEach(0 ..< options.count, id: \.self) { index in
+                    let option = options[index]
+                    
+                    if index == selectedIndex {
+                        HeaderText(text: option, fontSize: selectedFontSize)
+                    } else {
+                        Text(option)
+                            .modifier(FontModifier(fontSize: unselectedFontSize))
+                            .foregroundStyle(.unselected)
+                            .onTapGesture {
+                                selectedIndex = index
+                                onSelect?(index)
+                            }
+                    }
                 }
+                
+                Spacer()
             }
-            
-            Spacer()
+            .padding(.leading, Dimens.defaultPadding)
         }
     }
 }
 
 #Preview {
-    HorizontalTextSelections(options: ["Home", "Transactions"])
+    HorizontalTextSelections(options: ["Home", "Transactions"]) { index in
+        
+    }
 }

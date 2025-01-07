@@ -8,25 +8,76 @@
 import SwiftUI
 
 struct AddSpendingScreen: View {
-    @State var text: String = ""
+    @Environment(\.dismiss) var dismiss
+    let category: Category
+    @State var text: String = "$0"
     @State var amount: Double = 0.0
+    @State var selectedSubcategory: Category?
     @FocusState var isFocus: Bool
     
     var body: some View {
         ZStack(alignment: .top) {
-            VStack(spacing: 40) {
+            VStack(spacing: Dimens.defaultPadding) {
+                HStack {
+                    Button {
+                        dismiss()
+                    } label: {
+                        Image(systemName: "chevron.backward")
+                            .foregroundStyle(.prime)
+                            .font(Font.title2.bold())
+                    }
+
+                    Spacer()
+                    
+                    HeaderText(text: category.title, fontSize: .largeFont)
+                    
+                    Spacer()
+                    
+                    Image(systemName: "xmark")
+                        .foregroundStyle(.clear)
+                        .font(Font.title2.bold())
+                }
+                .padding(.horizontal, Dimens.defaultPadding)
+
                 MainStatus(model: .init(
-                    topText: "Car",
-                    mainText: 200.00.currency,
-                    bottomLeadingText: 300.00.currency,
-                    bottomTrailingText: 500.00.currency,
-                    filledPercentage: 0.5
+                    topText: nil,
+                    mainText: category.leftOver.currency,
+                    bottomLeadingText: category.totalSpent.currency,
+                    bottomTrailingText: category.limit.currency,
+                    filledPercentage: category.percentageSpent
                 ))
+                .padding(.horizontal, Dimens.defaultPadding)
+                
+                if let subcategories = category.subcategories {
+                    VStack(spacing: Dimens.smallSpacing) {
+                        HeaderText(text: "Subcategory", fontSize: .largeFont)
+                        
+                        HorizontalTextSelections(
+                            options: subcategories.map { $0.title },
+                            selectedFontSize: .xLargeFont,
+                            unselectedFontSize: .mediumFont) { index in
+                                selectedSubcategory = subcategories[index]
+                            }
+                        
+                        StatusBar(
+                            filledPercentage: selectedSubcategory?.percentageSpent ?? 0.0,
+                            bottomLeadingText: "Spent: \(selectedSubcategory?.totalSpent.currency ?? "$0.00")",
+                            bottomTrailingText: "Limit: \(selectedSubcategory?.limit.currency ?? "$0.00")",
+                            bottomHeaderFontSize: .mediumFont,
+                            limitBarHeight: Dimens.mediumLimitBarHeight,
+                            showBorder: true
+                        )
+                        .padding(.horizontal, Dimens.defaultPadding)
+                    }
+                    .onAppear {
+                        selectedSubcategory = subcategories.first
+                    }
+                }
                 
                 TextField(0.00.currency, text: $text)
                     .multilineTextAlignment(.center)
                     .foregroundStyle(.prime)
-                    .modifier(FontModifier(fontSize: 50))
+                    .modifier(FontModifier(fontSize: .largeHeaderFont))
                     .focused($isFocus)
                     .keyboardType(.decimalPad)
 //                    .onChange(of: text) { newValue in
@@ -38,24 +89,25 @@ struct AddSpendingScreen: View {
 //                        }
 //                    }
                     .onAppear {
-                        isFocus = true
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                            isFocus = true
+                        }
                     }
                 
                 Button {
                     //
                 } label: {
-                    HeaderText(text: "Submit", fontSize: .largeHeaderFont)
+                    HeaderText(text: "Submit", fontSize: .xxxLargeFont)
                 }
 
                 
                 Spacer()
             }
-            .padding(Dimens.defaultPadding)
         }
         .background(Color.background)
     }
 }
 
 #Preview {
-    AddSpendingScreen()
+    AddSpendingScreen(category: dummyCategory)
 }

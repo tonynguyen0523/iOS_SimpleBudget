@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct MainStatusModel {
-    var topText: String
+    var topText: String?
     var mainText: String
     var bottomLeadingText: String
     var bottomTrailingText: String
@@ -20,7 +20,9 @@ struct MainStatus: View {
     
     var body: some View {
         VStack(spacing: Dimens.mediumSpacing) {
-            HeaderText(text: model.topText, fontSize: .smallFont)
+            if let tt = model.topText {
+                HeaderText(text: tt, fontSize: .smallFont)
+            }
             
             HeaderText(text: model.mainText, fontSize: .largeHeaderFont)
             
