@@ -9,7 +9,7 @@ import SwiftUI
 
 struct CategoryStatusModel {
     var topLeadingText: String
-    var topTrailingText: String
+    var topTrailingText: String?
     var bottomLeadingText: String
     var bottomTrailingText: String
     var filledPercentage: Double
@@ -23,16 +23,21 @@ struct CategoryStatus: View {
     
     var body: some View {
         VStack(spacing: Dimens.mediumSpacing) {
-            SplitHeaderTexts(
-                leadingText: model.topLeadingText,
-                trailingText: model.topTrailingText,
-                fontSize: topHeaderFontSize
-            )
+            if let topTrailingText = model.topTrailingText {
+                SplitHeaderTexts(
+                    leadingText: model.topLeadingText,
+                    trailingText: topTrailingText,
+                    fontSize: topHeaderFontSize
+                )
+            } else {
+                HeaderText(text: model.topLeadingText, fontSize: topHeaderFontSize)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+            }
             
             StatusBar(
                 filledPercentage: model.filledPercentage,
-                bottomLeadingText: "Spent: \(model.bottomLeadingText)",
-                bottomTrailingText: "Limit: \(model.bottomTrailingText)",
+                bottomLeadingText: "",
+                bottomTrailingText: "",
                 bottomHeaderFontSize: bottomHeaderFontSize,
                 limitBarHeight: limitBarHeight
             )
@@ -51,7 +56,7 @@ struct CategoryStatus: View {
     return CategoryStatus(
         model: CategoryStatusModel(
             topLeadingText: category.title,
-            topTrailingText: category.limit.currency,
+            topTrailingText: nil,
             bottomLeadingText: category.totalSpent.currency,
             bottomTrailingText: category.limit.currency,
             filledPercentage: category.percentageSpent

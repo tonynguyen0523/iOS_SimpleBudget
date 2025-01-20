@@ -9,13 +9,14 @@ import SwiftUI
 
 struct BorderedButton: View {
     var title: String
+    var iconName = "plus"
     var action: () -> Void
     
     var body: some View {
         Button {
-            //
+            action()
         } label: {
-            SplitHeaderIcon(title: title, fontSize: .mediumFont, icon: UIImage(systemName: "plus"))
+            SplitHeaderIcon(title: title, fontSize: .mediumFont, icon: UIImage(systemName: iconName))
                 .padding()
                 .background {
                     BorderedRectangle()

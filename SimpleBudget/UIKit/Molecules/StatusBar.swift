@@ -19,11 +19,13 @@ struct StatusBar: View {
         FilledLimitBar(filledPercentage: filledPercentage, showBorder: showBorder)
             .frame(height: limitBarHeight)
         
-        SplitHeaderTexts(
-            leadingText: bottomLeadingText,
-            trailingText: bottomTrailingText,
-            fontSize: bottomHeaderFontSize
-        )
+        if !bottomLeadingText.isEmpty || !bottomTrailingText.isEmpty {
+            SplitHeaderTexts(
+                leadingText: bottomLeadingText,
+                trailingText: bottomTrailingText,
+                fontSize: bottomHeaderFontSize
+            )
+        }
     }
 }
 

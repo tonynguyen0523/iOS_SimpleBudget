@@ -11,4 +11,5 @@ struct Transaction {
     var name: String
     var amount: Double
     var categoryId: Int
+    var categoryName: String = "Others"
 }

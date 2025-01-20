@@ -19,9 +19,9 @@ struct CategoryStatusListItem: View {
                 CategoryStatus(
                     model: CategoryStatusModel(
                         topLeadingText: category.title,
-                        topTrailingText: category.leftOver.currency,
-                        bottomLeadingText: category.totalSpent.currency,
-                        bottomTrailingText: category.limit.currency,
+                        topTrailingText: category.totalSpent.currency,
+                        bottomLeadingText: "",
+                        bottomTrailingText: category.totalSpent.currency,
                         filledPercentage: category.percentageSpent
                     ),
                     topHeaderFontSize: .largeFont,
@@ -38,9 +38,9 @@ struct CategoryStatusListItem: View {
                     }
                     
                     SplitHeaderIcon(
-                        title: .localized("Subcategories"),
+                        title: .localized("Recent Transactions"),
                         fontSize: .mediumFont,
-                        icon: UIImage(systemName: expanded ? "chevron.down.square" : "chevron.right.square")
+                        icon: UIImage(systemName: expanded ? "chevron.up" : "chevron.down")
                     )
                     .onTapGesture {
                         withAnimation(.bouncy) {
