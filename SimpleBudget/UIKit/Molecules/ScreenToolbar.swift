@@ -9,11 +9,12 @@ import SwiftUI
 
 struct ScreenToolbar: View {
     var title: String
+    var leadingButtonAction: (() -> Void)?
     
     var body: some View {
         HStack {
             Button {
-//                dismiss()
+                leadingButtonAction?()
             } label: {
                 Image(systemName: "chevron.backward")
                     .foregroundStyle(.prime)

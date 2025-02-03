@@ -30,6 +30,16 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
+		56241D6A2D50424900FE5CCF /* Services */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = Services;
+			sourceTree = "<group>";
+		};
+		56241D6F2D50447E00FE5CCF /* ViewModels */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
 		56808EAE2CD9B97E001E6DA6 /* SimpleBudget */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = SimpleBudget;
@@ -75,7 +85,9 @@
 		56808EA32CD9B97E001E6DA6 = {
 			isa = PBXGroup;
 			children = (
+				56241D6F2D50447E00FE5CCF /* ViewModels */,
 				56808EAD2CD9B97E001E6DA6 /* Products */,
+				56241D6A2D50424900FE5CCF /* Services */,
 				56808EAE2CD9B97E001E6DA6 /* SimpleBudget */,
 				56808EC12CD9B97F001E6DA6 /* SimpleBudgetTests */,
 				56808ECB2CD9B97F001E6DA6 /* SimpleBudgetUITests */,
@@ -108,6 +120,8 @@
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
+				56241D6A2D50424900FE5CCF /* Services */,
+				56241D6F2D50447E00FE5CCF /* ViewModels */,
 				56808EAE2CD9B97E001E6DA6 /* SimpleBudget */,
 			);
 			name = SimpleBudget;
@@ -395,10 +409,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"SimpleBudget/Preview Content\"";
-				DEVELOPMENT_TEAM = 4JBNR65H2J;
+				DEVELOPMENT_TEAM = "";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -414,6 +428,7 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.yolks.SimpleBudget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 6.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -425,10 +440,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"SimpleBudget/Preview Content\"";
-				DEVELOPMENT_TEAM = 4JBNR65H2J;
+				DEVELOPMENT_TEAM = "";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -444,6 +459,7 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.yolks.SimpleBudget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 6.0;
 				TARGETED_DEVICE_FAMILY = "1,2";

@@ -9,7 +9,9 @@ import SwiftUI
 
 struct BorderedTextFieldButton: View {
     var title: String
+    var buttonTitle = "Submit"
     @State var value: String
+    var action: ((String) -> Void)? = nil
     
     var body: some View {
         HStack(spacing: 0) {
@@ -23,9 +25,9 @@ struct BorderedTextFieldButton: View {
                 }
             
             Button {
-                
+                self.action?(self.value)
             } label: {
-                HeaderText(text: "Submit", fontSize: .mediumFont)
+                HeaderText(text: buttonTitle, fontSize: .mediumFont)
                     .padding(.horizontal, Dimens.defaultPadding)
             }
         }

@@ -9,19 +9,23 @@ import SwiftUI
 import SwiftData
 
 struct ContentView: View {
-    @Environment(\.modelContext) private var modelContext
-    @Query private var items: [Item]
-
+    @State private var viewModel: AppViewModel
+    
+    init() {
+        viewModel = .init(dataService: .shared)
+    }
+    
     var body: some View {
-        HomeScreen(budget: .init(
-            length: "Biweekly",
-            limit: 6000.00,
-            categories: dummyCategories)
-        )
+        HomeScreen()
+            .environmentObject(viewModel)
     }
 }
 
-#Preview {
-    ContentView()
-        .modelContainer(for: Item.self, inMemory: true)
+//#Preview {
+//    ContentView()
+//        .modelContainer(for: Item.self, inMemory: true)
+//}
+
+extension ContentView {
+
 }

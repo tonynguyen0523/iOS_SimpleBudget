@@ -9,3 +9,12 @@ import SwiftUI
 
 import Foundation
 
+func getCurrentDate() -> Date {
+    return Date()
+}
+
+func getCurrentDateString() -> String {
+    let dateFormatter = DateFormatter()
+    dateFormatter.dateStyle = .short
+    return dateFormatter.string(from: getCurrentDate())
+}

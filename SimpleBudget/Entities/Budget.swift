@@ -6,14 +6,21 @@
 //
 
 import Foundation
+import SwiftData
 
-struct Budget {
-    let length: String
-    var limit: Double
-    let categories: [Category]
+@Model
+class Budget {
+    var length: BudgetLength?
+    var limit = 0.0
+    
+    init(length: BudgetLength?, limit: Double = 0.0) {
+        self.length = length
+        self.limit = limit
+    }
     
     var totalSpent: Double {
-        categories.reduce(0) { $0 + $1.totalSpent }
+        return 0.0
+//        categories.reduce(0) { $0 + $1.totalSpent }
     }
     var leftOver: Double {
         limit - totalSpent

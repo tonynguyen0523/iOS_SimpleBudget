@@ -1,28 +1,21 @@
 //
 //  Category.swift
-//  Simple Budget
+//  SimpleBudget
 //
-//  Created by Tony Nguyen on 11/3/24.
+//  Created by Tony Nguyen on 2/1/25.
 //
 
 import Foundation
+import SwiftData
 
-struct Category: Identifiable {
-    var id: UUID = .init()
-    var title: String
-    var limit: Double
-    var subcategories: [Category]?
-    var transactions: [Transaction]?
+@Model
+class Category {
+    @Attribute(.unique) var id: UUID
+    var name: String
+    @Relationship(deleteRule: .nullify) var transactions: [Transaction] = []
     
-    var totalSpent: Double { getTotalSpent() }
-    var leftOver: Double { limit - totalSpent }
-    var percentageSpent: Double {
-        return totalSpent / limit
-    }
-    
-    private func getTotalSpent() -> Double {
-        let categorySpent = transactions?.reduce(0) { $0 + $1.amount } ?? 0.0
-        let subcategorySpent = subcategories?.reduce(0) { $0 + $1.getTotalSpent() } ?? 0.0
-        return categorySpent + subcategorySpent
+    init(id: UUID = UUID(), name: String) {
+        self.id = id
+        self.name = name
     }
 }

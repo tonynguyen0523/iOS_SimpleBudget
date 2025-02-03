@@ -8,13 +8,17 @@
 import SwiftUI
 
 struct AddTransactionScreen: View {
+    @ObservedObject private var viewModel: AddTransactionViewModel
     @Environment(\.dismiss) var dismiss
-    let category: Category
     @State var text: String = "$0"
     @State var amount: Double = 0.0
-    @State var selectedSubcategory: Category?
+    @State var selectedSubcategory: OldCategory?
     @State var isToggled: Bool = false
     @FocusState var isFocus: Bool
+    
+    init(dataService: DataServiceProtocol = DataService.shared) {
+        self.viewModel = AddTransactionViewModel(dataService: dataService)
+    }
     
     var body: some View {
         ZStack(alignment: .bottom) {
@@ -52,27 +56,55 @@ struct AddTransactionScreen: View {
                        
                 ScrollView {
                     VStack(spacing: Dimens.largeSpacing) {
-                        if let subcategories = category.subcategories {
+                        HeaderText(text: "Category", fontSize: .largeFont)
+
+                        if let selectedCategory = viewModel.selectedCategory {
+                            BorderedButton(title: selectedCategory.name, iconName: isToggled ? "chevron.up" : "chevron.down") {
+                                toggleCategorySelection()
+                            }
+                        } else {
+                            TextFieldButton(title: "Add New Category", buttonTitle: "Add") { value in
+                                self.viewModel.addCategory(.init(name: value))
+                                toggleCategorySelection()
+                            }
+                        }
+               
+                        if isToggled {
+                            TextFieldButton(title: "Add New Category", buttonTitle: "Add") { value in
+                                self.viewModel.addCategory(.init(name: value))
+                                toggleCategorySelection()
+                            }
                             
-                            HeaderText(text: "Category", fontSize: .largeFont)
-                            
-                            BorderedButton(title: selectedSubcategory?.title ?? "Select Subcategory", iconName: "chevron.down") {
-                                withAnimation(.bouncy) {
-                                    isToggled.toggle()
+                            ForEach(viewModel.categories) { category in
+                                if category.id != viewModel.selectedCategory?.id {
+                                    BorderedButton(title: category.name, iconName: "") {
+                                        viewModel.updateSelectedCategory(category)
+                                        toggleCategorySelection()
+                                    }
                                 }
                             }
-                            .onAppear {
-                                selectedSubcategory = subcategories.first
-                            }
                             
-                            if isToggled {
-                                ForEach(subcategories) { subcategory in
-                                    BorderedButton(title: subcategory.title, iconName: "chevron.down") {
-                                        selectedSubcategory = subcategory
-                                        withAnimation(.bouncy) {
-                                            isToggled.toggle()
+                            ForEach(viewModel.newCategories) { category in
+                                HStack {
+                                    HeaderText(text: category.name, fontSize: .mediumFont)
+                                        .onTapGesture {
+                                            viewModel.updateSelectedCategory(category)
+                                            toggleCategorySelection()
                                         }
+                                    
+                                    Spacer() // TODO: Make the text fill up the spacer area
+                                    
+                                    Button {
+                                        viewModel.removeNewCategory(category)
+                                        toggleCategorySelection()
+                                    } label: {
+                                        HeaderText(text: "Delete", fontSize: .xSmallFont, textColor: .red)
                                     }
+                                }
+                                .padding()
+                                .frame(maxWidth: .infinity, alignment: .leading)
+                                .background {
+                                    BorderedRectangle()
                                 }
                             }
                         }
@@ -83,7 +115,7 @@ struct AddTransactionScreen: View {
                         
                         BorderedTextField(title: "Amount", value: text)
                         
-                     
+                        BorderedTextField(title: "Date", value: getCurrentDateString())
                         
                         Spacer()
                     }
@@ -91,17 +123,30 @@ struct AddTransactionScreen: View {
                 }
             }
             
-            BorderedButton(title: "Submit", iconName: "plus") {
-                
+            ZStack {
+                BorderedButton(title: "Submit", iconName: "plus") {
+                    
+                }
+                .padding(.horizontal, Dimens.defaultPadding)
+                .padding(.vertical, Dimens.defaultPadding)
             }
-            .padding(.horizontal, Dimens.defaultPadding)
-            .padding(.vertical, Dimens.defaultPadding)
-
+            .background {
+                Color.background.opacity(0.9)
+                    .ignoresSafeArea()
+                    .blur(radius: 20)
+            }
         }
+        .navigationBarBackButtonHidden(true)
         .background(Color.background)
+    }
+    
+    func toggleCategorySelection() {
+        withAnimation(.bouncy) {
+            self.isToggled.toggle()
+        }
     }
 }
 
 #Preview {
-    AddTransactionScreen(category: dummyCategory)
+    AddTransactionScreen(dataService: DummyDataService())
 }

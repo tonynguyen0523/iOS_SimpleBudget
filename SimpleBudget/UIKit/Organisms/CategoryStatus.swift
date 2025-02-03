@@ -46,11 +46,11 @@ struct CategoryStatus: View {
 }
 
 #Preview {
-    var category = Category(title: "Car", limit: 600.00)
+    var category = OldCategory(title: "Car", limit: 600.00)
     category.transactions = [
-        Transaction(name: "Gas", amount: 30.65, categoryId: 1),
-        Transaction(name: "Gas", amount: 25.46, categoryId: 1),
-        Transaction(name: "Loan", amount: 500.00, categoryId: 1)
+        OldTransaction(name: "Gas", amount: 30.65, categoryId: 1),
+        OldTransaction(name: "Gas", amount: 25.46, categoryId: 1),
+        OldTransaction(name: "Loan", amount: 500.00, categoryId: 1)
     ]
     
     return CategoryStatus(

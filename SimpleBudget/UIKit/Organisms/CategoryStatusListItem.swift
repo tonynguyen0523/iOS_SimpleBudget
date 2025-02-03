@@ -8,8 +8,8 @@
 import SwiftUI
 
 struct CategoryStatusListItem: View {
-    let category: Category
-    let onSwipe: (Category) -> Void
+    let category: OldCategory
+    let onSwipe: (OldCategory) -> Void
     @State var expanded: Bool = false
     @State private var horizontalOffset = CGFloat.zero
     

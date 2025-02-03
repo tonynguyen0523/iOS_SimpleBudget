@@ -1,15 +1,26 @@
 //
 //  Transaction.swift
-//  Simple Budget
+//  SimpleBudget
 //
-//  Created by Tony Nguyen on 11/3/24.
+//  Created by Tony Nguyen on 2/1/25.
 //
 
 import Foundation
+import SwiftData
 
-struct Transaction {
+@Model
+class Transaction {
+    @Attribute(.unique) var id: UUID
     var name: String
     var amount: Double
-    var categoryId: Int
-    var categoryName: String = "Others"
+    var date: Date
+    @Relationship(deleteRule: .noAction) var category: Category?
+    
+    init(id: UUID = UUID(), name: String, amount: Double, date: Date, category: Category? = nil) {
+        self.id = id
+        self.name = name
+        self.amount = amount
+        self.date = date
+        self.category = category
+    }
 }

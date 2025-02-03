@@ -10,11 +10,12 @@ import SwiftUI
 struct HeaderText: View {
     var text: String
     var fontSize: CGFloat
+    var textColor: Color = .prime
     
     var body: some View {
         Text(text)
             .fontWeight(.bold)
-            .foregroundColor(.prime)
+            .foregroundColor(textColor)
             .modifier(FontModifier(fontSize: fontSize))
     }
 }

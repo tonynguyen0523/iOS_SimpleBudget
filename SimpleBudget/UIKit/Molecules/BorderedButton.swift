@@ -16,11 +16,20 @@ struct BorderedButton: View {
         Button {
             action()
         } label: {
-            SplitHeaderIcon(title: title, fontSize: .mediumFont, icon: UIImage(systemName: iconName))
-                .padding()
-                .background {
-                    BorderedRectangle()
-                }
+            if iconName.isEmpty {
+                HeaderText(text: title, fontSize: .mediumFont)
+                    .padding()
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .background {
+                        BorderedRectangle()
+                    }
+            } else {
+                SplitHeaderIcon(title: title, fontSize: .mediumFont, icon: UIImage(systemName: iconName))
+                    .padding()
+                    .background {
+                        BorderedRectangle()
+                    }
+            }
         }
     }
 }
